@@ -1,21 +1,18 @@
 <template>
-    <section if.bind="theme == 'modern'">
-            <require from="./tinymce-modules/themes/modern/theme-modern"></require>
-            <theme-modern></theme-modern>
-    </section>
-    <section if.bind="theme == 'mobile'">
-            <require from="./tinymce-modules/themes/mobile/theme-mobile"></require>
-            <theme-mobile></theme-mobile>
-    </section>
-    <section if.bind="theme == 'inline'">
-            <require from="./tinymce-modules/themes/inline/theme-inline"></require>
-            <theme-inline></theme-inline>
-    </section>
+  <section if.bind="theme == 'modern'">
+      <require from="./tinymce-modules/themes/modern/theme-modern"></require>
+      <theme-modern></theme-modern>
+  </section>
+  <section if.bind="theme == 'mobile'">
+    <require from="./tinymce-modules/themes/mobile/theme-mobile"></require>
+    <theme-mobile></theme-mobile>
+  </section>
+  <section if.bind="theme == 'inline'">
+    <require from="./tinymce-modules/themes/inline/theme-inline"></require>
+    <theme-inline></theme-inline>
+  </section>
 
-    <div>
-            
-                    <textarea id.bind="editorId" class="tinymce-editor"></textarea>
-                    
-           
-    </div>
+  <div>
+    <textarea id.bind="editorId" class="tinymce-editor"></textarea>
+  </div>
 </template>
