@@ -15,7 +15,7 @@
   "bugs": {
     "url": "https://github.com/titou-from-mars/aurelia-tinymce-wrapper/issues"
   },
-  "license": "CC0-1.0",
+  "license": "MIT",
   "author": "Cédric Caspar <cedric.caspar@gmail.com>",
   "main": "dist/commonjs/index.js",
   "repository": {
