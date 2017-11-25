@@ -12,7 +12,6 @@ import 'tinymce/plugins/code/plugin';
 import 'tinymce/plugins/advlist/plugin';
 import 'tinymce/plugins/lists/plugin';
 import { setTimeout } from "timers";
-import './fr_FR';
 
 tinymce;
 
@@ -39,12 +38,7 @@ export class TinyMce
         this.setEditorId();
 
         this.attachCount = 0;
-    }
-
-    contentChanged(value){ 
-        console.log("content changed");
-        this.editorInstance.setContent(value);
-    }
+    }    
 
     attached(){
         window.setTimeout(() => {
@@ -56,10 +50,9 @@ export class TinyMce
             }
             el.removeAttribute('style');
             el.removeAttribute('aria-hidden')
-            this.options.selector = `#${this.editorId}`;
-            this.options.language ='fr_FR';
+            this.options.selector = `#${this.editorId}`;           
             tinymce.init(this.options);
-    
+
             this.editorInstance = tinymce.editors[this.editorId];
             if(this.editorInstance){
                 this.editorInstance.setContent(this.content);
@@ -90,6 +83,9 @@ export class TinyMce
         this.editorId = id;
     }
 
+    contentChanged(value){      
+      this.editorInstance.setContent(value);
+    }
     
     setContent (value){ 
         if(this.editorInstance){            
