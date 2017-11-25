@@ -42,6 +42,7 @@ export class TinyMce
     }
 
     contentChanged(value){ 
+        console.log("content changed");
         this.editorInstance.setContent(value);
     }
 
