@@ -1,6 +1,6 @@
 {
   "name": "aurelia-tinymce-wrapper",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Aurelia plugin wrapper for TinyMCE. A WYSIWYG HTML Rich Text Editor.",
   "keywords": [
     "aurelia",
