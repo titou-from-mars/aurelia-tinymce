@@ -2,25 +2,19 @@
 Aurelia TinyMCE HTML Editor Plugin
 
 # Installation
-1. npm install aurelia-tinymce-wrapper tinymce timers --save
+1. npm install aurelia-tinymce-wrapper --save
 2. (aurelia-cli) add package to the dependencies in the aurelia.json file.
 ```javascript
 {
-            "name": "aurelia-tinymce-wrapper",
-            "path": "../node_modules/aurelia-tinymce-wrapper/dist/amd",
-            "main": "index",
-            "deps": [
-              "./tinymce/tinymce"
-            ],            
-            "resources": [
-              "**/*.{css,html}"
-            ]
+  "name": "aurelia-tinymce-wrapper",
+  "path": "../node_modules/aurelia-tinymce-wrapper/dist/amd",
+  "main": "index"            
 },
 {
-            "name": "tinymce",
-            "path": "../node_modules/tinymce",
-            "main": "tinymce"
-          },
+  "name": "tinymce",
+  "path": "../node_modules/tinymce",
+  "main": "tinymce"
+},
 "timers"
 ```
 3. create a `fonts` and `img` directory in the root of your project (if you dont already have them).
@@ -31,10 +25,9 @@ Aurelia TinyMCE HTML Editor Plugin
 
 1. add the plugin to your main.ts file.
 ```javascript
-import {Aurelia} from 'aurelia-framework'
 import environment from './environment';
 
-export function configure(aurelia: Aurelia) {
+export function configure(aurelia) {
   aurelia.use
     .standardConfiguration()
     .plugin('aurelia-tinymce-wrapper') //<-- This line
@@ -56,14 +49,15 @@ export function configure(aurelia: Aurelia) {
 ```html
 <template>
   <h1>My Html Editor</h1>
-  <tiny-mce theme="mobile" menubar="false" content="hello world"></tiny-mce> <!--This line-->
+  <tiny-mce theme="modern" menubar="false" content="hello world"></tiny-mce> <!--This line-->
 </template>
 ```
-2.b the same, inline version
+3. the same, inline version
 ```html
 <template>
   <h1>My Html Editor</h1>
-  <tiny-mce inline theme="mobile" menubar="false" content="hello world"></tiny-mce> <!--This line-->
+  <tiny-mce inline theme="modern" menubar="false" content="hello world"></tiny-mce> <!--This line-->
 </template>
 ```
+
 
