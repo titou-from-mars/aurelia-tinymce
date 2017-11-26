@@ -6,7 +6,7 @@ Aurelia TinyMCE HTML Editor Plugin
 2. (aurelia-cli) add package to the dependencies in the aurelia.json file.
 ```javascript
 {
-            "name": "aurelia-tinymce",
+            "name": "aurelia-tinymce-wrapper",
             "path": "../node_modules/aurelia-tinymce-wrapper/dist/amd",
             "main": "index",
             "deps": [
@@ -24,8 +24,8 @@ Aurelia TinyMCE HTML Editor Plugin
 "timers"
 ```
 3. create a `fonts` and `img` directory in the root of your project (if you dont already have them).
-4. copy the contents of `node_modules/aurelia-tinymce/dist/amd/tinymce/fonts` to the `fonts` folder you created.
-5. copy the contents of `node_modules/aurelia-tinymce/dist/amd/tinymce/img` to the `img` folder you created.
+4. copy the contents of `node_modules/tinymce/skins/lightgray/fonts` to the `fonts` folder you created.
+5. copy the contents of `node_modules/tinymce/skins/lightgray/img` to the `img` folder you created.
 
 # Usage
 
@@ -56,6 +56,14 @@ export function configure(aurelia: Aurelia) {
 ```html
 <template>
   <h1>My Html Editor</h1>
-  <tiny-mce theme="mobile" menubar="false" content="hello world" save.delegate="saveContent($event)"></tiny-mce> <!--This line-->
+  <tiny-mce theme="mobile" menubar="false" content="hello world"></tiny-mce> <!--This line-->
 </template>
 ```
+2.b the same, inline version
+```html
+<template>
+  <h1>My Html Editor</h1>
+  <tiny-mce inline theme="mobile" menubar="false" content="hello world"></tiny-mce> <!--This line-->
+</template>
+```
+
