@@ -83,14 +83,6 @@ export let TinyMce = (_dec = customElement('tiny-mce'), _dec2 = inject(Element),
         this.attachCount = 0;
     }
 
-    contentChanged(value) {
-        if (value !== this.editorInstance.getContent()) this.editorInstance.setContent(value);
-    }
-
-    themeChanged(value) {
-        if (value === 'inlite') this.inline = true;
-    }
-
     attached() {
         window.setTimeout(() => {
             let el = document.getElementById(this.editorId);
@@ -105,6 +97,7 @@ export let TinyMce = (_dec = customElement('tiny-mce'), _dec2 = inject(Element),
             this.options.selector = `#${this.editorId}`;
             this.options.theme = this.theme;
             this.options.inline = this.inline;
+            this.options.content_css = this.getCss(this.options.content_css);
             this.options.init_instance_callback = editor => {
                 editor.on('Change KeyUp', e => {
                     this.content = this.editorInstance.getContent();
@@ -129,6 +122,24 @@ export let TinyMce = (_dec = customElement('tiny-mce'), _dec2 = inject(Element),
         let guid = Guid.newGuid();
         let id = `editor-${guid.toString()}`;
         this.editorId = id;
+    }
+
+    contentChanged(value) {
+        if (value !== this.editorInstance.getContent()) this.editorInstance.setContent(value);
+    }
+
+    getCss(css) {
+
+        let cssBase = 'node_modules/tinymce/skins/lightgray/';
+        if (this.theme === "mobile") cssBase += 'content.mobile.min.css';else if (this.inline) cssBase += 'content.inline.min.css';else cssBase += 'content.min.css';
+
+        if (css && typeof css === "string") cssBase = cssBase + ',' + css;else if (css && Array.isArray(css)) {
+            css.unshift(cssBase);
+            cssBase = css;
+        }
+
+        console.log("css calculé:", cssBase);
+        return cssBase;
     }
 
     setContent(value) {

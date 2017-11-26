@@ -92,14 +92,6 @@ System.register(['aurelia-framework', './utilities/guid', 'tinymce/tinymce', 'ti
                     this.attachCount = 0;
                 };
 
-                TinyMce.prototype.contentChanged = function contentChanged(value) {
-                    if (value !== this.editorInstance.getContent()) this.editorInstance.setContent(value);
-                };
-
-                TinyMce.prototype.themeChanged = function themeChanged(value) {
-                    if (value === 'inlite') this.inline = true;
-                };
-
                 TinyMce.prototype.attached = function attached() {
                     var _this = this;
 
@@ -116,6 +108,7 @@ System.register(['aurelia-framework', './utilities/guid', 'tinymce/tinymce', 'ti
                         _this.options.selector = '#' + _this.editorId;
                         _this.options.theme = _this.theme;
                         _this.options.inline = _this.inline;
+                        _this.options.content_css = _this.getCss(_this.options.content_css);
                         _this.options.init_instance_callback = function (editor) {
                             editor.on('Change KeyUp', function (e) {
                                 _this.content = _this.editorInstance.getContent();
@@ -140,6 +133,24 @@ System.register(['aurelia-framework', './utilities/guid', 'tinymce/tinymce', 'ti
                     var guid = Guid.newGuid();
                     var id = 'editor-' + guid.toString();
                     this.editorId = id;
+                };
+
+                TinyMce.prototype.contentChanged = function contentChanged(value) {
+                    if (value !== this.editorInstance.getContent()) this.editorInstance.setContent(value);
+                };
+
+                TinyMce.prototype.getCss = function getCss(css) {
+
+                    var cssBase = 'node_modules/tinymce/skins/lightgray/';
+                    if (this.theme === "mobile") cssBase += 'content.mobile.min.css';else if (this.inline) cssBase += 'content.inline.min.css';else cssBase += 'content.min.css';
+
+                    if (css && typeof css === "string") cssBase = cssBase + ',' + css;else if (css && Array.isArray(css)) {
+                        css.unshift(cssBase);
+                        cssBase = css;
+                    }
+
+                    console.log("css calculé:", cssBase);
+                    return cssBase;
                 };
 
                 TinyMce.prototype.setContent = function setContent(value) {
