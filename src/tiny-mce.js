@@ -17,79 +17,90 @@ tinymce;
 
 @customElement('tiny-mce')
 @inject(Element)
-export class TinyMce {
-  @bindable theme = 'modern'; //modern, mobile, inline    
-  @bindable content = '';
-  @bindable options = {};
+export class TinyMce
+{
+    @bindable theme = 'modern'; //modern, mobile, inlite  
+    @bindable inline = false; 
+    
+    @bindable content = '';
+    @bindable options ={};
 
-  element;
+    element;
 
-  editorId = '';
-  editorInstance = null;
-  attachCount;
+     editorId = '';
+     editorInstance = null;
+     attachCount;
 
-  constructor(element) {
-    this.element = element;
-
-  }
-
-  bind() {
-    this.setEditorId();
-    this.attachCount = 0;
-  }
-
-  contentChanged(value) {
-    if (value !== this.editorInstance.getContent()) this.editorInstance.setContent(value);
-  }
-
-  attached() {
-    window.setTimeout(() => {
-      let el = document.getElementById(this.editorId);
-      if (!el && this.attachCount < 100) {
-        this.attached();
-        this.attachCount += 1;
-        return;
-      }
-      el.removeAttribute('style');
-      el.removeAttribute('aria-hidden')
-      this.options.selector = `#${this.editorId}`;
-      this.options.init_instance_callback = (editor) => {
-        editor.on('Change KeyUp', (e) => {
-          this.content = this.editorInstance.getContent();
-        });
-      };
-      tinymce.init(this.options);
-
-      this.editorInstance = tinymce.editors[this.editorId];
-      if (this.editorInstance) {
-        this.editorInstance.setContent(this.content);
-      }
-    }, 10);
-  }
-
-  detached() {
-    if (this.editorInstance) {
-      this.editorInstance.destroy();
+    constructor(element){
+        this.element = element;        
     }
-  }
 
-
-  setEditorId() {
-    let guid = Guid.newGuid();
-    let id = `editor-${guid.toString()}`;
-    this.editorId = id;
-  }
-
-
-  setContent(value) {
-    if (this.editorInstance) {
-      this.editorInstance.setContent(value);
+    bind(){
+        this.setEditorId();       
+        if(this.inline !== false) this.inline = true;
+        this.attachCount = 0;
     }
-  }
 
-  getContent() {
-    if (this.editorInstance) {
-      return this.editorInstance.getContent();
+    contentChanged(value){         
+        if(value !== this.editorInstance.getContent()) this.editorInstance.setContent(value);
     }
-  }
+    
+
+    themeChanged(value){
+      if(value === 'inlite' ) this.inline = true;
+    }
+
+    attached(){
+        window.setTimeout(() => {
+            let el = document.getElementById(this.editorId);
+            if(!el && this.attachCount < 100){
+                this.attached();
+                this.attachCount += 1;
+                return;
+            }
+            el.removeAttribute('style');
+            el.removeAttribute('aria-hidden')
+            
+            this.options.selector = `#${this.editorId}`;
+            this.options.theme = this.theme;        
+            this.options.inline = this.inline;
+            this.options.init_instance_callback = (editor)=> {
+              editor.on('Change KeyUp',  (e)=> {
+                this.content = this.editorInstance.getContent();
+              });
+            };
+            tinymce.init(this.options);
+    
+            this.editorInstance = tinymce.editors[this.editorId];
+            if(this.editorInstance){
+                this.editorInstance.setContent(this.content);
+            }    
+        }, 10);           
+    }
+
+    detached(){
+        if(this.editorInstance){
+            this.editorInstance.destroy();            
+        }
+    }
+   
+
+    setEditorId(){
+        let guid = Guid.newGuid();
+        let id = `editor-${guid.toString()}`;
+        this.editorId = id;
+    }
+
+    
+    setContent (value){ 
+        if(this.editorInstance){            
+            this.editorInstance.setContent(value);
+        } 
+    }
+
+    getContent(){        
+        if(this.editorInstance){                     
+           return this.editorInstance.getContent();
+        } 
+    }
 }
