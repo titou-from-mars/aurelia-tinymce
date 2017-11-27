@@ -17,13 +17,11 @@ Aurelia TinyMCE HTML Rich Text Editor Plugin
 },
 "timers"
 ```
-3. create a `fonts` and `img` directory in the root of your project (if you dont already have them).
-4. copy the contents of `node_modules/tinymce/skins/lightgray/fonts` to the `fonts` folder you created.
-5. copy the contents of `node_modules/tinymce/skins/lightgray/img` to the `img` folder you created.
+3. copy the directory  `node_modules/tinymce/skins` to the `script` folder.
 
 # Usage
 
-1. add the plugin to your main.ts file.
+1. add the plugin to your main.js file.
 ```javascript
 import environment from './environment';
 
@@ -133,6 +131,4 @@ export class App {
   <div>${content}</div>
 </template>
 ```
-# Known Issues
-in the current version of the plugin, there is a problem with the  the Tinymce editing window style sheets.  One workaround it is to copy the folder "node_modules/tinymce/skins" to "scripts/"
 
