@@ -1,4 +1,4 @@
-define(['exports', 'aurelia-framework', './utilities/guid', 'timers', 'tinymce/tinymce', 'tinymce/plugins/link/plugin', 'tinymce/plugins/paste/plugin', 'tinymce/plugins/hr/plugin', 'tinymce/plugins/save/plugin', 'tinymce/plugins/textcolor/plugin', 'tinymce/plugins/image/plugin', 'tinymce/plugins/media/plugin', 'tinymce/plugins/code/plugin', 'tinymce/plugins/advlist/plugin', 'tinymce/plugins/lists/plugin'], function (exports, _aureliaFramework, _guid, _timers) {
+define(['exports', 'aurelia-framework', './utilities/guid', 'timers', 'tinymce/tinymce', 'tinymce/plugins/link/plugin', 'tinymce/plugins/paste/plugin', 'tinymce/plugins/hr/plugin', 'tinymce/plugins/save/plugin', 'tinymce/plugins/textcolor/plugin', 'tinymce/plugins/image/plugin', 'tinymce/plugins/media/plugin', 'tinymce/plugins/code/plugin', 'tinymce/plugins/advlist/plugin', 'tinymce/plugins/lists/plugin', 'tinymce/themes/modern/theme', 'tinymce/themes/mobile/theme', 'tinymce/themes/inlite/theme'], function (exports, _aureliaFramework, _guid, _timers) {
     'use strict';
 
     Object.defineProperty(exports, "__esModule", {
@@ -99,7 +99,6 @@ define(['exports', 'aurelia-framework', './utilities/guid', 'timers', 'tinymce/t
                 _this.options.selector = '#' + _this.editorId;
                 _this.options.theme = _this.theme;
                 _this.options.inline = _this.inline;
-                _this.options.content_css = _this.getCss(_this.options.content_css);
                 _this.options.init_instance_callback = function (editor) {
                     editor.on('Change KeyUp', function (e) {
                         _this.content = _this.editorInstance.getContent();
@@ -128,20 +127,6 @@ define(['exports', 'aurelia-framework', './utilities/guid', 'timers', 'tinymce/t
 
         TinyMce.prototype.contentChanged = function contentChanged(value) {
             if (value !== this.editorInstance.getContent()) this.editorInstance.setContent(value);
-        };
-
-        TinyMce.prototype.getCss = function getCss(css) {
-
-            var cssBase = 'node_modules/tinymce/skins/lightgray/';
-            if (this.theme === "mobile") cssBase += 'content.mobile.min.css';else if (this.inline) cssBase += 'content.inline.min.css';else cssBase += 'content.min.css';
-
-            if (css && typeof css === "string") cssBase = cssBase + ',' + css;else if (css && Array.isArray(css)) {
-                css.unshift(cssBase);
-                cssBase = css;
-            }
-
-            console.log("css calculé:", cssBase);
-            return cssBase;
         };
 
         TinyMce.prototype.setContent = function setContent(value) {

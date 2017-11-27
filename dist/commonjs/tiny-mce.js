@@ -33,6 +33,12 @@ require('tinymce/plugins/advlist/plugin');
 
 require('tinymce/plugins/lists/plugin');
 
+require('tinymce/themes/modern/theme');
+
+require('tinymce/themes/mobile/theme');
+
+require('tinymce/themes/inlite/theme');
+
 var _timers = require('timers');
 
 function _initDefineProp(target, property, descriptor, context) {
@@ -122,7 +128,6 @@ var TinyMce = exports.TinyMce = (_dec = (0, _aureliaFramework.customElement)('ti
             _this.options.selector = '#' + _this.editorId;
             _this.options.theme = _this.theme;
             _this.options.inline = _this.inline;
-            _this.options.content_css = _this.getCss(_this.options.content_css);
             _this.options.init_instance_callback = function (editor) {
                 editor.on('Change KeyUp', function (e) {
                     _this.content = _this.editorInstance.getContent();
@@ -151,20 +156,6 @@ var TinyMce = exports.TinyMce = (_dec = (0, _aureliaFramework.customElement)('ti
 
     TinyMce.prototype.contentChanged = function contentChanged(value) {
         if (value !== this.editorInstance.getContent()) this.editorInstance.setContent(value);
-    };
-
-    TinyMce.prototype.getCss = function getCss(css) {
-
-        var cssBase = 'node_modules/tinymce/skins/lightgray/';
-        if (this.theme === "mobile") cssBase += 'content.mobile.min.css';else if (this.inline) cssBase += 'content.inline.min.css';else cssBase += 'content.min.css';
-
-        if (css && typeof css === "string") cssBase = cssBase + ',' + css;else if (css && Array.isArray(css)) {
-            css.unshift(cssBase);
-            cssBase = css;
-        }
-
-        console.log("css calculé:", cssBase);
-        return cssBase;
     };
 
     TinyMce.prototype.setContent = function setContent(value) {

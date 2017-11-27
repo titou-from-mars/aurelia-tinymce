@@ -1,6 +1,6 @@
 'use strict';
 
-System.register(['aurelia-framework', './utilities/guid', 'tinymce/tinymce', 'tinymce/plugins/link/plugin', 'tinymce/plugins/paste/plugin', 'tinymce/plugins/hr/plugin', 'tinymce/plugins/save/plugin', 'tinymce/plugins/textcolor/plugin', 'tinymce/plugins/image/plugin', 'tinymce/plugins/media/plugin', 'tinymce/plugins/code/plugin', 'tinymce/plugins/advlist/plugin', 'tinymce/plugins/lists/plugin', 'timers'], function (_export, _context) {
+System.register(['aurelia-framework', './utilities/guid', 'tinymce/tinymce', 'tinymce/plugins/link/plugin', 'tinymce/plugins/paste/plugin', 'tinymce/plugins/hr/plugin', 'tinymce/plugins/save/plugin', 'tinymce/plugins/textcolor/plugin', 'tinymce/plugins/image/plugin', 'tinymce/plugins/media/plugin', 'tinymce/plugins/code/plugin', 'tinymce/plugins/advlist/plugin', 'tinymce/plugins/lists/plugin', 'tinymce/themes/modern/theme', 'tinymce/themes/mobile/theme', 'tinymce/themes/inlite/theme', 'timers'], function (_export, _context) {
     "use strict";
 
     var customElement, bindable, inject, Guid, setTimeout, _dec, _dec2, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, TinyMce;
@@ -61,7 +61,7 @@ System.register(['aurelia-framework', './utilities/guid', 'tinymce/tinymce', 'ti
             inject = _aureliaFramework.inject;
         }, function (_utilitiesGuid) {
             Guid = _utilitiesGuid.Guid;
-        }, function (_tinymceTinymce) {}, function (_tinymcePluginsLinkPlugin) {}, function (_tinymcePluginsPastePlugin) {}, function (_tinymcePluginsHrPlugin) {}, function (_tinymcePluginsSavePlugin) {}, function (_tinymcePluginsTextcolorPlugin) {}, function (_tinymcePluginsImagePlugin) {}, function (_tinymcePluginsMediaPlugin) {}, function (_tinymcePluginsCodePlugin) {}, function (_tinymcePluginsAdvlistPlugin) {}, function (_tinymcePluginsListsPlugin) {}, function (_timers) {
+        }, function (_tinymceTinymce) {}, function (_tinymcePluginsLinkPlugin) {}, function (_tinymcePluginsPastePlugin) {}, function (_tinymcePluginsHrPlugin) {}, function (_tinymcePluginsSavePlugin) {}, function (_tinymcePluginsTextcolorPlugin) {}, function (_tinymcePluginsImagePlugin) {}, function (_tinymcePluginsMediaPlugin) {}, function (_tinymcePluginsCodePlugin) {}, function (_tinymcePluginsAdvlistPlugin) {}, function (_tinymcePluginsListsPlugin) {}, function (_tinymceThemesModernTheme) {}, function (_tinymceThemesMobileTheme) {}, function (_tinymceThemesInliteTheme) {}, function (_timers) {
             setTimeout = _timers.setTimeout;
         }],
         execute: function () {
@@ -108,7 +108,6 @@ System.register(['aurelia-framework', './utilities/guid', 'tinymce/tinymce', 'ti
                         _this.options.selector = '#' + _this.editorId;
                         _this.options.theme = _this.theme;
                         _this.options.inline = _this.inline;
-                        _this.options.content_css = _this.getCss(_this.options.content_css);
                         _this.options.init_instance_callback = function (editor) {
                             editor.on('Change KeyUp', function (e) {
                                 _this.content = _this.editorInstance.getContent();
@@ -137,20 +136,6 @@ System.register(['aurelia-framework', './utilities/guid', 'tinymce/tinymce', 'ti
 
                 TinyMce.prototype.contentChanged = function contentChanged(value) {
                     if (value !== this.editorInstance.getContent()) this.editorInstance.setContent(value);
-                };
-
-                TinyMce.prototype.getCss = function getCss(css) {
-
-                    var cssBase = 'node_modules/tinymce/skins/lightgray/';
-                    if (this.theme === "mobile") cssBase += 'content.mobile.min.css';else if (this.inline) cssBase += 'content.inline.min.css';else cssBase += 'content.min.css';
-
-                    if (css && typeof css === "string") cssBase = cssBase + ',' + css;else if (css && Array.isArray(css)) {
-                        css.unshift(cssBase);
-                        cssBase = css;
-                    }
-
-                    console.log("css calculé:", cssBase);
-                    return cssBase;
                 };
 
                 TinyMce.prototype.setContent = function setContent(value) {
