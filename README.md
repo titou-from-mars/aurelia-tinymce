@@ -3,7 +3,7 @@ Aurelia TinyMCE HTML Rich Text Editor Plugin
 
 # Installation
 1. npm install aurelia-tinymce-wrapper --save
-2. (aurelia-cli) add package to the dependencies in the aurelia.json file.
+2. (aurelia-cli) add package to the dependencies in the `aurelia.json` file.
 ```javascript
 {
   "name": "aurelia-tinymce-wrapper",
@@ -17,7 +17,26 @@ Aurelia TinyMCE HTML Rich Text Editor Plugin
 },
 "timers"
 ```
-3. copy the directory  `node_modules/tinymce/skins` to the `script` folder.
+3. copy the directory  `node_modules/tinymce/skins` to the `scripts` folder.
+4. If you get the error `plugin.load is not a function` go back to `aurelia.json` and set build loader plugins stub to false
+```javascript
+"loader": {
+  "type": "require",
+  "configTarget": "vendor-bundle.js",
+  "includeBundleMetadataInConfig": "auto",
+  "plugins": [
+    {
+      "name": "text",
+      "extensions": [
+        ".html",
+        ".css"
+      ],
+      "stub": false
+    }
+  ]
+},
+
+```
 
 # Usage
 
@@ -47,14 +66,14 @@ export function configure(aurelia) {
 ```html
 <template>
   <h1>My Html Editor</h1>
-  <tiny-mce theme="modern" menubar="false" content="hello world"></tiny-mce> <!--This line-->
+  <tiny-mce theme="modern" content="hello world"></tiny-mce> <!--This line-->
 </template>
 ```
 3. the same, inline version
 ```html
 <template>
   <h1>My Html Editor</h1>
-  <tiny-mce inline theme="modern" menubar="false" content="hello world"></tiny-mce> <!--This line-->
+  <tiny-mce inline theme="modern" content="hello world"></tiny-mce> <!--This line-->
 </template>
 ```
 # Bindable attribute
@@ -113,6 +132,8 @@ First you need to go to Tinymce's website to retrieve the language package file 
 https://www.tinymce.com/download/language-packages/
 
 Then you must import this file and activate the language selected in the configuration. Here is an example with french :
+
+- app.js :
 
 ```javascript
 import './fr_FR';
