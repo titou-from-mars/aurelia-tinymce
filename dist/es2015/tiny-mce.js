@@ -46,19 +46,7 @@ function _initializerWarningHelper(descriptor, context) {
 import { customElement, bindable, inject } from "aurelia-framework";
 import { Guid } from './utilities/guid';
 import 'tinymce/tinymce';
-import 'tinymce/plugins/link/plugin';
-import 'tinymce/plugins/paste/plugin';
-import 'tinymce/plugins/hr/plugin';
-import 'tinymce/plugins/save/plugin';
-import 'tinymce/plugins/textcolor/plugin';
-import 'tinymce/plugins/image/plugin';
-import 'tinymce/plugins/media/plugin';
-import 'tinymce/plugins/code/plugin';
-import 'tinymce/plugins/advlist/plugin';
-import 'tinymce/plugins/lists/plugin';
-import 'tinymce/themes/modern/theme';
-import 'tinymce/themes/mobile/theme';
-import 'tinymce/themes/inlite/theme';
+
 
 import { setTimeout } from "timers";
 

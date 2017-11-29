@@ -13,32 +13,6 @@ var _guid = require('./utilities/guid');
 
 require('tinymce/tinymce');
 
-require('tinymce/plugins/link/plugin');
-
-require('tinymce/plugins/paste/plugin');
-
-require('tinymce/plugins/hr/plugin');
-
-require('tinymce/plugins/save/plugin');
-
-require('tinymce/plugins/textcolor/plugin');
-
-require('tinymce/plugins/image/plugin');
-
-require('tinymce/plugins/media/plugin');
-
-require('tinymce/plugins/code/plugin');
-
-require('tinymce/plugins/advlist/plugin');
-
-require('tinymce/plugins/lists/plugin');
-
-require('tinymce/themes/modern/theme');
-
-require('tinymce/themes/mobile/theme');
-
-require('tinymce/themes/inlite/theme');
-
 var _timers = require('timers');
 
 function _initDefineProp(target, property, descriptor, context) {

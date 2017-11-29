@@ -1,4 +1,4 @@
-define(['exports', 'aurelia-framework', './utilities/guid', 'timers', 'tinymce/tinymce', 'tinymce/plugins/link/plugin', 'tinymce/plugins/paste/plugin', 'tinymce/plugins/hr/plugin', 'tinymce/plugins/save/plugin', 'tinymce/plugins/textcolor/plugin', 'tinymce/plugins/image/plugin', 'tinymce/plugins/media/plugin', 'tinymce/plugins/code/plugin', 'tinymce/plugins/advlist/plugin', 'tinymce/plugins/lists/plugin', 'tinymce/themes/modern/theme', 'tinymce/themes/mobile/theme', 'tinymce/themes/inlite/theme'], function (exports, _aureliaFramework, _guid, _timers) {
+define(['exports', 'aurelia-framework', './utilities/guid', 'timers', 'tinymce/tinymce'], function (exports, _aureliaFramework, _guid, _timers) {
     'use strict';
 
     Object.defineProperty(exports, "__esModule", {
