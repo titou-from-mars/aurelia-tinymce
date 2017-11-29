@@ -1,16 +1,16 @@
 {
   "name": "aurelia-tinymce-wrapper",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "Aurelia plugin wrapper for TinyMCE. A WYSIWYG HTML Rich Text Editor.",
   "keywords": [
     "aurelia",
     "plugin",
     "WYSIWYG",
     "tinymce",
-    "aurelia-tinymce-wrapper",
-    "html",
+    "aurelia-tinymce-wrapper",    
     "html editor",
-    "rich text editor"
+    "rich text editor",
+    "text editor"
   ],
   "homepage": "https://github.com/titou-from-mars/aurelia-tinymce-wrapper",
   "bugs": {

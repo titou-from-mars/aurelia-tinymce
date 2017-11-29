@@ -17,6 +17,7 @@ Aurelia TinyMCE HTML Rich Text Editor Plugin
 },
 "timers"
 ```
+
 3. copy the directory  `node_modules/tinymce/skins` to the `scripts` folder.
 4. If you get the error `plugin.load is not a function` go back to `aurelia.json` and set build loader plugins stub to false
 ```javascript
@@ -62,20 +63,45 @@ export function configure(aurelia) {
 }
 ```
 
-2. add the element to the view where you want to editor to go.
+2. add the element to the view where you want the editor to go.
+- app.html :
 ```html
 <template>
   <h1>My Html Editor</h1>
-  <tiny-mce theme="modern" content="hello world"></tiny-mce> <!--This line-->
+  <tiny-mce theme="modern" content.bind="content"></tiny-mce> <!--This line-->
 </template>
 ```
+
+- app.js :
+```javascript
+import 'tinymce/themes/modern/theme'; //Don't forget to import the theme you want to use
+export class App {
+  constructor() {
+    this.content = 'Hello World!';
+  }
+}
+```
+
 3. the same, inline version
+- app.html : 
 ```html
 <template>
   <h1>My Html Editor</h1>
   <tiny-mce inline theme="modern" content="hello world"></tiny-mce> <!--This line-->
 </template>
 ```
+
+- app.js :
+```javascript
+import 'tinymce/themes/modern/theme'; //Don't forget to import the theme you want to use
+export class App {
+  constructor() {
+    this.content = 'Hello World!';
+  }
+}
+
+```
+
 # Bindable attribute
 
 ## content {string}
@@ -86,16 +112,27 @@ You can bind the content attribute, even with a two-way binding, like this :
   <div>${content}</div>
 </template>
 ```
+
+
 ## options {object}
-One of the most important attributes. It gives you access to Tincymce configuration options. You can find these options in the documentation on Tinymce's website.Here is an example:
+One of the most important attributes. It gives you access to Tincymce configuration options. You can find these options in the documentation on Tinymce's website. Here is an example:
 - app.js :
 ```javascript
+import 'tinymce/plugins/link/plugin';
+import 'tinymce/plugins/paste/plugin';
+import 'tinymce/plugins/hr/plugin';
+import 'tinymce/plugins/image/plugin';
+import 'tinymce/plugins/media/plugin';
+import 'tinymce/plugins/code/plugin';
+import 'tinymce/plugins/lists/plugin';
+import 'tinymce/themes/modern/theme';
+
 export class App {
   constructor() {
     this.options = {
       toolbar:"formatselect bold italic | bullist numlist | link unlink | image media | code",
       menubar:false,
-      plugins: ['link', 'paste', 'code', 'save', 'media','image','lists','advlist'],
+      plugins: ['link', 'paste', 'code','media','image','lists'],
       branding: false,      
       hidden_input:true,
       browser_spellcheck: true
@@ -103,6 +140,7 @@ export class App {
   }
 }
 ```
+
 - app.html :
 ```html
 <template>  
@@ -111,10 +149,29 @@ export class App {
 </template>
 ```
 
+
 ## theme {string} - "modern"|"inlite"|"mobile"
 
-Allows you to choose between the 3 available themes:"modern","inlite" and "mobile". If you choose the theme "inlite", you must also activate the attribute "inline". Conversely, the "mobile" theme cannot work with the "inline"attribute. 
-At the moment, it is not possible to change the theme on the fly.
+Allows you to choose between the 3 available themes:"modern","inlite" and "mobile". "modern" is selected by default. If you choose the theme "inlite", you must also activate the attribute "inline". Conversely, the "mobile" theme cannot work with the "inline"attribute. 
+To be able to use a theme, you must import it into your  view-model.
+- app.js :
+```javascript
+import 'tinymce/themes/mobile/theme'; //Don't forget to import the theme you want to use
+export class App {
+  constructor() {
+    this.content = 'Hello World!';
+  }
+}
+```
+
+- app.html :
+```html
+<template>
+  <h1>My Html Editor</h1>
+  <tiny-mce theme="mobile" content="hello world"></tiny-mce> <!--This line-->
+</template>
+```
+
 
 ## inline
 
@@ -136,6 +193,7 @@ Then you must import this file and activate the language selected in the configu
 - app.js :
 
 ```javascript
+import 'tinymce/themes/modern/theme';
 import './fr_FR';
 export class App {
   constructor() {
