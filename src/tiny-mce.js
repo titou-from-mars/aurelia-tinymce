@@ -62,10 +62,14 @@ export class TinyMce
             this.options.selector = `#${this.editorId}`;
             this.options.theme = this.theme;        
             this.options.inline = this.inline;
+            let save_init_instance_callback = this.options.init_instance_callback;//on le sauvegarde car il va être écrasé la ligne suivante
             this.options.init_instance_callback = (editor)=> {
               editor.on('Change KeyUp',  (e)=> {
                 this.content = this.editorInstance.getContent();
               });
+              if(save_init_instance_callback){
+                save_init_instance_callback(editor);
+              } 
             };
             tinymce.init(this.options);
     
