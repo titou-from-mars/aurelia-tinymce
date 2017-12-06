@@ -8,7 +8,10 @@ Aurelia TinyMCE HTML Rich Text Editor Plugin
 {
   "name": "aurelia-tinymce-wrapper",
   "path": "../node_modules/aurelia-tinymce-wrapper/dist/amd",
-  "main": "index"            
+  "main": "index",
+  "resources": [
+    "**/*.html"
+  ]
 },
 {
   "name": "tinymce",
