@@ -1,4 +1,4 @@
-define(['exports'], function (exports) {
+define(['exports', './tiny-mce', './utilities/guid'], function (exports, _tinyMce, _guid) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {

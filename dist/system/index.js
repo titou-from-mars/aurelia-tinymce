@@ -1,8 +1,9 @@
 'use strict';
 
-System.register([], function (_export, _context) {
+System.register(['./tiny-mce', './utilities/guid'], function (_export, _context) {
   "use strict";
 
+  var TinyMce, Guid;
   function configure(config) {
     config.globalResources('./tiny-mce');
   }
@@ -10,7 +11,11 @@ System.register([], function (_export, _context) {
   _export('configure', configure);
 
   return {
-    setters: [],
+    setters: [function (_tinyMce) {
+      TinyMce = _tinyMce.TinyMce;
+    }, function (_utilitiesGuid) {
+      Guid = _utilitiesGuid.Guid;
+    }],
     execute: function () {}
   };
 });

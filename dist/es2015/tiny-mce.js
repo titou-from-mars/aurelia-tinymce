@@ -1,153 +1,155 @@
 var _dec, _dec2, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4;
 
 function _initDefineProp(target, property, descriptor, context) {
-    if (!descriptor) return;
-    Object.defineProperty(target, property, {
-        enumerable: descriptor.enumerable,
-        configurable: descriptor.configurable,
-        writable: descriptor.writable,
-        value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
-    });
+  if (!descriptor) return;
+  Object.defineProperty(target, property, {
+    enumerable: descriptor.enumerable,
+    configurable: descriptor.configurable,
+    writable: descriptor.writable,
+    value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
+  });
 }
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-    var desc = {};
-    Object['ke' + 'ys'](descriptor).forEach(function (key) {
-        desc[key] = descriptor[key];
-    });
-    desc.enumerable = !!desc.enumerable;
-    desc.configurable = !!desc.configurable;
+  var desc = {};
+  Object['ke' + 'ys'](descriptor).forEach(function (key) {
+    desc[key] = descriptor[key];
+  });
+  desc.enumerable = !!desc.enumerable;
+  desc.configurable = !!desc.configurable;
 
-    if ('value' in desc || desc.initializer) {
-        desc.writable = true;
-    }
+  if ('value' in desc || desc.initializer) {
+    desc.writable = true;
+  }
 
-    desc = decorators.slice().reverse().reduce(function (desc, decorator) {
-        return decorator(target, property, desc) || desc;
-    }, desc);
+  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+    return decorator(target, property, desc) || desc;
+  }, desc);
 
-    if (context && desc.initializer !== void 0) {
-        desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-        desc.initializer = undefined;
-    }
+  if (context && desc.initializer !== void 0) {
+    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+    desc.initializer = undefined;
+  }
 
-    if (desc.initializer === void 0) {
-        Object['define' + 'Property'](target, property, desc);
-        desc = null;
-    }
+  if (desc.initializer === void 0) {
+    Object['define' + 'Property'](target, property, desc);
+    desc = null;
+  }
 
-    return desc;
+  return desc;
 }
 
 function _initializerWarningHelper(descriptor, context) {
-    throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
+  throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
 }
 
-import { customElement, bindable, inject } from "aurelia-framework";
+import { customElement, bindable, inject } from 'aurelia-framework';
 import { Guid } from './utilities/guid';
 import 'tinymce/tinymce';
-
-
-import { setTimeout } from "timers";
+import { setTimeout } from 'timers';
 
 tinymce;
 
 export let TinyMce = (_dec = customElement('tiny-mce'), _dec2 = inject(Element), _dec(_class = _dec2(_class = (_class2 = class TinyMce {
 
-    constructor(element) {
-        _initDefineProp(this, 'theme', _descriptor, this);
+  constructor(element) {
+    _initDefineProp(this, 'theme', _descriptor, this);
 
-        _initDefineProp(this, 'inline', _descriptor2, this);
+    _initDefineProp(this, 'inline', _descriptor2, this);
 
-        _initDefineProp(this, 'content', _descriptor3, this);
+    _initDefineProp(this, 'content', _descriptor3, this);
 
-        _initDefineProp(this, 'options', _descriptor4, this);
+    _initDefineProp(this, 'options', _descriptor4, this);
 
-        this.editorId = '';
-        this.editorInstance = null;
+    this.editorId = '';
+    this.editorInstance = null;
 
-        this.element = element;
-    }
+    this.element = element;
+  }
 
-    bind() {
-        this.setEditorId();
-        if (this.inline !== false) this.inline = true;
-        this.attachCount = 0;
-    }
+  bind() {
+    this.setEditorId();
+    if (this.inline !== false) this.inline = true;
+    this.attachCount = 0;
+  }
 
-    attached() {
-        window.setTimeout(() => {
-            let el = document.getElementById(this.editorId);
-            if (!el && this.attachCount < 100) {
-                this.attached();
-                this.attachCount += 1;
-                return;
-            }
-            el.removeAttribute('style');
-            el.removeAttribute('aria-hidden');
+  attached() {
+    window.setTimeout(() => {
+      let el = document.getElementById(this.editorId);
+      if (!el && this.attachCount < 100) {
+        this.attached();
+        this.attachCount += 1;
+        return;
+      }
+      el.removeAttribute('style');
+      el.removeAttribute('aria-hidden');
 
-            this.options.selector = `#${this.editorId}`;
-            this.options.theme = this.theme;
-            this.options.inline = this.inline;
-            this.options.init_instance_callback = editor => {
-                editor.on('Change KeyUp', e => {
-                    this.content = this.editorInstance.getContent();
-                });
-            };
-            tinymce.init(this.options);
-
-            this.editorInstance = tinymce.editors[this.editorId];
-            if (this.editorInstance) {
-                this.editorInstance.setContent(this.content);
-            }
-        }, 10);
-    }
-
-    detached() {
-        if (this.editorInstance) {
-            this.editorInstance.destroy();
+      this.options.selector = `#${this.editorId}`;
+      this.options.theme = this.theme;
+      this.options.inline = this.inline;
+      let save_init_instance_callback = this.options.init_instance_callback;
+      this.options.init_instance_callback = editor => {
+        editor.on('Change KeyUp', e => {
+          this.content = this.editorInstance.getContent();
+        });
+        if (save_init_instance_callback) {
+          save_init_instance_callback(editor);
         }
-    }
+      };
+      tinymce.init(this.options);
 
-    setEditorId() {
-        let guid = Guid.newGuid();
-        let id = `editor-${guid.toString()}`;
-        this.editorId = id;
-    }
+      this.editorInstance = tinymce.editors[this.editorId];
+      if (this.editorInstance) {
+        this.editorInstance.setContent(this.content);
+      }
+    }, 10);
+  }
 
-    contentChanged(value) {
-        if (value !== this.editorInstance.getContent()) this.editorInstance.setContent(value);
+  detached() {
+    if (this.editorInstance) {
+      this.editorInstance.destroy();
     }
+  }
 
-    setContent(value) {
-        if (this.editorInstance) {
-            this.editorInstance.setContent(value);
-        }
-    }
+  setEditorId() {
+    let guid = Guid.newGuid();
+    let id = `editor-${guid.toString()}`;
+    this.editorId = id;
+  }
 
-    getContent() {
-        if (this.editorInstance) {
-            return this.editorInstance.getContent();
-        }
+  contentChanged(value) {
+    if (value !== this.editorInstance.getContent()) this.editorInstance.setContent(value);
+  }
+
+  setContent(value) {
+    if (this.editorInstance) {
+      this.editorInstance.setContent(value);
     }
+  }
+
+  getContent() {
+    if (this.editorInstance) {
+      return this.editorInstance.getContent();
+    }
+  }
 }, (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'theme', [bindable], {
-    enumerable: true,
-    initializer: function () {
-        return 'modern';
-    }
+  enumerable: true,
+  initializer: function () {
+    return 'modern';
+  }
 }), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'inline', [bindable], {
-    enumerable: true,
-    initializer: function () {
-        return false;
-    }
+  enumerable: true,
+  initializer: function () {
+    return false;
+  }
 }), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'content', [bindable], {
-    enumerable: true,
-    initializer: function () {
-        return '';
-    }
+  enumerable: true,
+  initializer: function () {
+    return '';
+  }
 }), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, 'options', [bindable], {
-    enumerable: true,
-    initializer: function () {
-        return {};
-    }
+  enumerable: true,
+  initializer: function () {
+    return {};
+  }
 })), _class2)) || _class) || _class);
