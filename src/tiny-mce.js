@@ -1,12 +1,11 @@
-import { customElement, bindable, inject } from 'aurelia-framework';
+import { customElement, bindable, inject, TaskQueue } from 'aurelia-framework';
 import {Guid} from './utilities/guid';
 import 'tinymce/tinymce';
-import { setTimeout } from 'timers';
 
 tinymce;
 
 @customElement('tiny-mce')
-@inject(Element)
+@inject(Element, TaskQueue)
 export class TinyMce {
   @bindable theme = 'modern'; //modern, mobile, inlite
   @bindable inline = false;
@@ -18,26 +17,20 @@ export class TinyMce {
 
   editorId = '';
   editorInstance = null;
-  attachCount;
 
-  constructor(element) {
+  constructor(element, taskQueue) {
     this.element = element;
+    this.taskQueue = taskQueue;
   }
 
   bind() {
     this.setEditorId();
     if (this.inline !== false) this.inline = true;
-    this.attachCount = 0;
   }
 
   attached() {
-    window.setTimeout(() => {
+    this.taskQueue.queueTask(() => {
       let el = document.getElementById(this.editorId);
-      if (!el && this.attachCount < 100) {
-        this.attached();
-        this.attachCount += 1;
-        return;
-      }
       el.removeAttribute('style');
       el.removeAttribute('aria-hidden');
 
@@ -56,10 +49,10 @@ export class TinyMce {
       tinymce.init(this.options);
 
       this.editorInstance = tinymce.editors[this.editorId];
-      if (this.editorInstance) {
+      if (this.editorInstance && this.content) {
         this.editorInstance.setContent(this.content);
       }
-    }, 10);
+    });
   }
 
   detached() {
