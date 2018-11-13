@@ -1,9 +1,9 @@
 'use strict';
 
-System.register(['aurelia-framework', './utilities/guid', 'tinymce/tinymce', 'timers'], function (_export, _context) {
+System.register(['aurelia-framework', './utilities/guid', 'tinymce/tinymce'], function (_export, _context) {
   "use strict";
 
-  var customElement, bindable, inject, Guid, setTimeout, _dec, _dec2, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, TinyMce;
+  var customElement, bindable, inject, TaskQueue, Guid, _dec, _dec2, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, TinyMce;
 
   function _initDefineProp(target, property, descriptor, context) {
     if (!descriptor) return;
@@ -59,17 +59,16 @@ System.register(['aurelia-framework', './utilities/guid', 'tinymce/tinymce', 'ti
       customElement = _aureliaFramework.customElement;
       bindable = _aureliaFramework.bindable;
       inject = _aureliaFramework.inject;
+      TaskQueue = _aureliaFramework.TaskQueue;
     }, function (_utilitiesGuid) {
       Guid = _utilitiesGuid.Guid;
-    }, function (_tinymceTinymce) {}, function (_timers) {
-      setTimeout = _timers.setTimeout;
-    }],
+    }, function (_tinymceTinymce) {}],
     execute: function () {
 
       tinymce;
 
-      _export('TinyMce', TinyMce = (_dec = customElement('tiny-mce'), _dec2 = inject(Element), _dec(_class = _dec2(_class = (_class2 = function () {
-        function TinyMce(element) {
+      _export('TinyMce', TinyMce = (_dec = customElement('tiny-mce'), _dec2 = inject(Element, TaskQueue), _dec(_class = _dec2(_class = (_class2 = function () {
+        function TinyMce(element, taskQueue) {
           _classCallCheck(this, TinyMce);
 
           _initDefineProp(this, 'theme', _descriptor, this);
@@ -84,24 +83,19 @@ System.register(['aurelia-framework', './utilities/guid', 'tinymce/tinymce', 'ti
           this.editorInstance = null;
 
           this.element = element;
+          this.taskQueue = taskQueue;
         }
 
         TinyMce.prototype.bind = function bind() {
           this.setEditorId();
           if (this.inline !== false) this.inline = true;
-          this.attachCount = 0;
         };
 
         TinyMce.prototype.attached = function attached() {
           var _this = this;
 
-          window.setTimeout(function () {
+          this.taskQueue.queueTask(function () {
             var el = document.getElementById(_this.editorId);
-            if (!el && _this.attachCount < 100) {
-              _this.attached();
-              _this.attachCount += 1;
-              return;
-            }
             el.removeAttribute('style');
             el.removeAttribute('aria-hidden');
 
@@ -120,10 +114,10 @@ System.register(['aurelia-framework', './utilities/guid', 'tinymce/tinymce', 'ti
             tinymce.init(_this.options);
 
             _this.editorInstance = tinymce.editors[_this.editorId];
-            if (_this.editorInstance) {
+            if (_this.editorInstance && _this.content) {
               _this.editorInstance.setContent(_this.content);
             }
-          }, 10);
+          });
         };
 
         TinyMce.prototype.detached = function detached() {

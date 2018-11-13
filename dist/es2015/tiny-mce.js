@@ -43,16 +43,15 @@ function _initializerWarningHelper(descriptor, context) {
   throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
 }
 
-import { customElement, bindable, inject } from 'aurelia-framework';
+import { customElement, bindable, inject, TaskQueue } from 'aurelia-framework';
 import { Guid } from './utilities/guid';
 import 'tinymce/tinymce';
-import { setTimeout } from 'timers';
 
 tinymce;
 
-export let TinyMce = (_dec = customElement('tiny-mce'), _dec2 = inject(Element), _dec(_class = _dec2(_class = (_class2 = class TinyMce {
+export let TinyMce = (_dec = customElement('tiny-mce'), _dec2 = inject(Element, TaskQueue), _dec(_class = _dec2(_class = (_class2 = class TinyMce {
 
-  constructor(element) {
+  constructor(element, taskQueue) {
     _initDefineProp(this, 'theme', _descriptor, this);
 
     _initDefineProp(this, 'inline', _descriptor2, this);
@@ -65,22 +64,17 @@ export let TinyMce = (_dec = customElement('tiny-mce'), _dec2 = inject(Element),
     this.editorInstance = null;
 
     this.element = element;
+    this.taskQueue = taskQueue;
   }
 
   bind() {
     this.setEditorId();
     if (this.inline !== false) this.inline = true;
-    this.attachCount = 0;
   }
 
   attached() {
-    window.setTimeout(() => {
+    this.taskQueue.queueTask(() => {
       let el = document.getElementById(this.editorId);
-      if (!el && this.attachCount < 100) {
-        this.attached();
-        this.attachCount += 1;
-        return;
-      }
       el.removeAttribute('style');
       el.removeAttribute('aria-hidden');
 
@@ -99,10 +93,10 @@ export let TinyMce = (_dec = customElement('tiny-mce'), _dec2 = inject(Element),
       tinymce.init(this.options);
 
       this.editorInstance = tinymce.editors[this.editorId];
-      if (this.editorInstance) {
+      if (this.editorInstance && this.content) {
         this.editorInstance.setContent(this.content);
       }
-    }, 10);
+    });
   }
 
   detached() {

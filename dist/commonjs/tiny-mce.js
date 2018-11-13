@@ -13,8 +13,6 @@ var _guid = require('./utilities/guid');
 
 require('tinymce/tinymce');
 
-var _timers = require('timers');
-
 function _initDefineProp(target, property, descriptor, context) {
   if (!descriptor) return;
   Object.defineProperty(target, property, {
@@ -62,8 +60,8 @@ function _initializerWarningHelper(descriptor, context) {
 
 tinymce;
 
-var TinyMce = exports.TinyMce = (_dec = (0, _aureliaFramework.customElement)('tiny-mce'), _dec2 = (0, _aureliaFramework.inject)(Element), _dec(_class = _dec2(_class = (_class2 = function () {
-  function TinyMce(element) {
+var TinyMce = exports.TinyMce = (_dec = (0, _aureliaFramework.customElement)('tiny-mce'), _dec2 = (0, _aureliaFramework.inject)(Element, _aureliaFramework.TaskQueue), _dec(_class = _dec2(_class = (_class2 = function () {
+  function TinyMce(element, taskQueue) {
     _classCallCheck(this, TinyMce);
 
     _initDefineProp(this, 'theme', _descriptor, this);
@@ -78,24 +76,19 @@ var TinyMce = exports.TinyMce = (_dec = (0, _aureliaFramework.customElement)('ti
     this.editorInstance = null;
 
     this.element = element;
+    this.taskQueue = taskQueue;
   }
 
   TinyMce.prototype.bind = function bind() {
     this.setEditorId();
     if (this.inline !== false) this.inline = true;
-    this.attachCount = 0;
   };
 
   TinyMce.prototype.attached = function attached() {
     var _this = this;
 
-    window.setTimeout(function () {
+    this.taskQueue.queueTask(function () {
       var el = document.getElementById(_this.editorId);
-      if (!el && _this.attachCount < 100) {
-        _this.attached();
-        _this.attachCount += 1;
-        return;
-      }
       el.removeAttribute('style');
       el.removeAttribute('aria-hidden');
 
@@ -114,10 +107,10 @@ var TinyMce = exports.TinyMce = (_dec = (0, _aureliaFramework.customElement)('ti
       tinymce.init(_this.options);
 
       _this.editorInstance = tinymce.editors[_this.editorId];
-      if (_this.editorInstance) {
+      if (_this.editorInstance && _this.content) {
         _this.editorInstance.setContent(_this.content);
       }
-    }, 10);
+    });
   };
 
   TinyMce.prototype.detached = function detached() {
